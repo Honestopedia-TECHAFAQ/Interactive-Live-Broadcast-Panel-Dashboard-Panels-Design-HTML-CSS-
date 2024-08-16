@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Broadcast Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #282c34;
+            color: #61dafb;
+            padding: 10px 20px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links li {
+            display: inline;
+        }
+
+        .nav-links a {
+            color: #61dafb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        button {
+            background-color: #61dafb;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #21a1f1;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        .broadcast-section {
+            margin-bottom: 20px;
+        }
+
+        .broadcast-section h2 {
+            border-bottom: 2px solid #61dafb;
+            padding-bottom: 10px;
+        }
+
+        .broadcast-list {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+        .broadcast-list.active {
+            border-left: 5px solid #61dafb;
+        }
+
+        .broadcast-list.preview {
+            border-left: 5px solid #a0d8ef;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #61dafb;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="time"],
+        input[type="number"],
+        input[type="file"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">Broadcast Dashboard</div>
+            <ul class="nav-links">
+                <li><a href="#future">Future Broadcasts</a></li>
+                <li><a href="#active">Active Broadcasts</a></li>
+                <li><a href="#old">Old Broadcasts</a></li>
+            </ul>
+            <button id="create-broadcast-btn">Create Broadcast</button>
+        </nav>
+    </header>
+    <main>
+        <section id="future" class="broadcast-section">
+            <h2>Future Broadcasts</h2>
+            <div class="broadcast-list preview">
+                <h3>Upcoming Event Title</h3>
+                <p>Description of the upcoming event. Scheduled for next week.</p>
+            </div>
+            <!-- More future broadcasts here -->
+        </section>
+        <section id="active" class="broadcast-section">
+            <h2>Active Broadcasts</h2>
+            <div class="broadcast-list active">
+                <h3>Current Live Broadcast</h3>
+                <p>Details about the current live broadcast. Live now!</p>
+            </div>
+            <!-- More active broadcasts here -->
+        </section>
+        <section id="old" class="broadcast-section">
+            <h2>Old Broadcasts</h2>
+            <div class="broadcast-list">
+                <h3>Past Broadcast Title</h3>
+                <p>Description of a past broadcast. Available for replay.</p>
+            </div>
+            <!-- More old broadcasts here -->
+        </section>
+    </main>
+
+    <!-- Modal for Creating Broadcast -->
+    <div id="create-broadcast-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Create Broadcast</h2>
+            <form id="broadcast-form">
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title" required>
+                <label for="description">Description</label>
+                <textarea id="description" name="description" required></textarea>
+                <label for="start-date">Start Date</label>
+                <input type="date" id="start-date" name="start-date" required>
+                <label for="start-time">Start Time</label>
+                <input type="time" id="start-time" name="start-time" required>
+                <label for="thumbnail-live">Thumbnail (Live)</label>
+                <input type="file" id="thumbnail-live" name="thumbnail-live" required>
+                <label for="thumbnail-vod">Thumbnail (VOD)</label>
+                <input type="file" id="thumbnail-vod" name="thumbnail-vod" required>
+                <label for="delay-graphics">Delay for Graphics (ms)</label>
+                <input type="number" id="delay-graphics" name="delay-graphics">
+                <label for="delay-end-user">Delay for End-User (ms)</label>
+                <input type="number" id="delay-end-user" name="delay-end-user">
+                <label for="speakers">Choose Speakers</label>
+                <select id="speakers" name="speakers" multiple>
+                    <option value="speaker1">Speaker 1</option>
+                    <option value="speaker2">Speaker 2</option>
+                    <option value="speaker3">Speaker 3</option>
+                </select>
+                <label for="chapters">Chapters</label>
+                <textarea id="chapters" name="chapters"></textarea>
+                <button type="submit">Create Broadcast</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('create-broadcast-modal');
+            const btn = document.getElementById('create-broadcast-btn');
+            const close = document.querySelector('.close');
+
+            // Open the modal
+            btn.onclick = () => {
+                modal.style.display = 'flex';
+            };
+
+            // Close the modal
+            close.onclick = () => {
+                modal.style.display = 'none';
+            };
+
+            // Close the modal if clicked outside
+            window.onclick = (event) => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            };
+        });
+    </script>
+</body>
+</html>
